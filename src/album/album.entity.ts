@@ -12,6 +12,9 @@ export class AlbumEntity {
     @Column()
     fechaFin:string
 
+    @Column()
+    titulo:string
+
     @OneToMany( () => FotoEntity, foto => foto.album)
     fotos: FotoEntity[]
 }
