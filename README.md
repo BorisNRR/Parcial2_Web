@@ -71,3 +71,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Code Author
+
+- Name - Boris N. Reyes R.
+- Code - 202014743
+- Uniandes - Parcial Web
