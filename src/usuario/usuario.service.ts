@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { BusinessLogicException, BusinessError } from 'src/shared/business-errors';
+import { UsuarioEntity } from './usuario.entity';
 
 @Injectable()
 export class UsuarioService {
