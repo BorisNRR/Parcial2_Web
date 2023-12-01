@@ -6,21 +6,22 @@ import { FotoEntity } from './foto.entity';
 
 @Injectable()
 export class FotoService {
-
     constructor(
         @InjectRepository(FotoEntity)
         private readonly fotoRepository: Repository<FotoEntity>
     ){}
 
     async createFoto(foto: FotoEntity): Promise<FotoEntity>{
-        if(Number(foto.iso) < 100 && Number(foto.iso) > 100)
+        if(Number(foto.iso) < 100 && Number(foto.iso) > 6400)
             throw new BusinessLogicException('Invalid value for ISO', BusinessError.PRECONDITION_FAILED)
+
         else if(Number(foto.velObturacion) < 2 && Number(foto.velObturacion) > 250)
             throw new BusinessLogicException('Invalid value for Vel. Obturacion', BusinessError.PRECONDITION_FAILED)
+
         else if(Number(foto.apertura) < 1 && Number(foto.apertura) > 32)
             throw new BusinessLogicException('Invalid value for Vel. Obturacion', BusinessError.PRECONDITION_FAILED)
-        //TODO - Implementar restriccion de las costas
         
+        //TODO - Implementar restriccion de las costas      
         return await this.fotoRepository.save(foto)
     }
 
