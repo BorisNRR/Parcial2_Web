@@ -12,16 +12,22 @@ export class FotoService {
     ){}
 
     async createFoto(foto: FotoEntity): Promise<FotoEntity>{
-        if(Number(foto.iso) < 100 && Number(foto.iso) > 6400)
+        let fIso = Number(foto.iso)
+        let fObt = Number(foto.velObturacion)
+        let fApt = Number(foto.apertura)
+
+        if(fIso < 100 && fIso > 6400)
             throw new BusinessLogicException('Invalid value for ISO', BusinessError.PRECONDITION_FAILED)
 
-        else if(Number(foto.velObturacion) < 2 && Number(foto.velObturacion) > 250)
+        else if(fObt < 2 && fObt > 250)
             throw new BusinessLogicException('Invalid value for Vel. Obturacion', BusinessError.PRECONDITION_FAILED)
 
-        else if(Number(foto.apertura) < 1 && Number(foto.apertura) > 32)
+        else if(fApt < 1 && fApt > 32)
             throw new BusinessLogicException('Invalid value for Vel. Obturacion', BusinessError.PRECONDITION_FAILED)
         
-        //TODO - Implementar restriccion de las costas      
+        else if( !( (fIso <= 3150) || (fObt <= 124) || (fApt <= 31/2) )) 
+            throw new BusinessLogicException('At least one atribute must be under the average value', BusinessError.PRECONDITION_FAILED)
+
         return await this.fotoRepository.save(foto)
     }
 
