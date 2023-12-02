@@ -4,6 +4,7 @@ import { AlbumEntity } from './album.entity';
 import { Repository } from 'typeorm';
 import { BusinessLogicException, BusinessError } from 'src/shared/business-errors';
 import { FotoEntity } from 'src/foto/foto.entity';
+import { isEmpty } from 'rxjs';
 
 @Injectable()
 export class AlbumService {
@@ -31,11 +32,16 @@ export class AlbumService {
         const album: AlbumEntity = await this.albumRepository.findOne({where:{id}})
         if(!album)
             throw new BusinessLogicException('Album with the given id was not found', BusinessError.NOT_FOUND)
+        else if(album.fotos.length != 0)
+            throw new BusinessLogicException('Can not delete album with an assigned photo', BusinessError.PRECONDITION_FAILED)
+
         await this.albumRepository.remove(album)
     }
 
-    //TODO - funcion para validar correspondencia en rango de fechas
-    // async addPhotoToAlbum(foto:FotoEntity): Promise<AlbumEntity>{
-
-    // }
+    async addPhotoToAlbum(foto:FotoEntity, album:AlbumEntity): Promise<AlbumEntity>{
+        if(foto.fecha <= album.fechaInicio || foto.fecha >= album.fechaFin)
+            throw new BusinessLogicException('Foto date out of bounds', BusinessError.PRECONDITION_FAILED)
+        album.fotos.push(foto)
+        return await this.albumRepository.save(album)
+    }
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BusinessLogicException, BusinessError } from 'src/shared/business-errors';
 import { FotoEntity } from './foto.entity';
+import { AlbumService } from 'src/album/album.service';
 
 @Injectable()
 export class FotoService {
@@ -42,12 +43,18 @@ export class FotoService {
         return await this.fotoRepository.find({ relations:['usuario', 'album']})
     }
 
-    async deleteFoto(id: string){
-        const album: FotoEntity = await this.fotoRepository.findOne({where:{id}})
-        if(!album)
-            throw new BusinessLogicException('Foto with the given id was not found', BusinessError.NOT_FOUND)
-        await this.fotoRepository.remove(album)
-    }
+    
+    // async deleteFoto(id: string){
+    //     const foto: FotoEntity = await this.fotoRepository.findOne({where:{id}, relations:['usuario', 'album']})
+    //     if(!foto)
+    //         throw new BusinessLogicException('Foto with the given id was not found', BusinessError.NOT_FOUND)
+        
+    //     await this.fotoRepository.remove(foto)
+
+    //     let album = foto.album
+    //     if(album.fotos.length == 0)
+    //         AlbumService.deleteAlbum(album.id)
+    // }
 
 
 }
